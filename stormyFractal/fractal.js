@@ -1,22 +1,5 @@
-<html>
-<head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
-<style>
-body {
-	margin: 0;
-}
-</style>
-</head>
-<body>
- 
-<script type="text/javascript">
 var strokeCol, strokeWeightPx;
 var bgColor = 200;
-
-function drawLine(x1, y1, x2, y2, brightness){
-  context.moveTo(x1, y1);
-  context.lineTo(x2, y2);
-}
 
 function flickerBg(){
 	bgColor += random(-10, 5);
@@ -54,9 +37,5 @@ function setup() {
 
 function draw() {
 	flickerBg();
-	drawTree(width/2, height - 100, 90, strokeWeightPx);
+	drawTree(width/2, height - 150, 90, strokeWeightPx);
 }
-</script>
- 
-</body>
-</html>
