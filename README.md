@@ -1,6 +1,6 @@
 # Fractals
 
-## Zyberg's go with artistic possibilities with fractals
+## Zyberg's go on artistic possibilities with fractals
 
 ---
 
