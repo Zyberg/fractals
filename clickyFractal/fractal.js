@@ -111,12 +111,8 @@ function setup() {
 }
 
 function mouseClicked() {
-	var isOnTree = false;
-	isOnTree = tree.collides(mouseX, mouseY);
-	if(isOnTree)
+	if(tree.collides(mouseX, mouseY))
 		tree.changeColor(random(255), 50, random(100));
-	if(!isOnTree)
-		console.log('false');
 }
 
 function draw() {
