@@ -5,6 +5,7 @@ function Tree(begin, end) {
 	this.end = end;
 
 	this.thickness = 1;
+	this.clicked = false;
 
 	this.show = function() {
 		if (this.left)
@@ -52,16 +53,22 @@ function Tree(begin, end) {
 	}
 
 	this.collides = function(x, y) {
+		this.collidesFlag(x, y);
+		return this.clicked;
+	}
+
+	this.collidesFlag = function(x, y) {
 		// Function from p5.collide2D
 		if (collidePointLine(x, y, begin.x, begin.y, end.x, end.y, buffer=0.5)) {
 			console.log("I was clicked");
-			return true;
+			this.clicked = true;
 		}
-		else if (this.left)
-			this.left.collides(x, y);
-		else if (this.right)
-			this.right.collides(x, y);
-		//console.log('yaa');
+		else if (this.left || this.right) {
+			if ( this.left ) this.left.collides(x, y);
+			if ( this.right ) this.right.collides(x, y);
+		}
+		else 
+			this.clicked = false;
 	}
 
 	this.changeColor = function(r, g, b) {
@@ -104,8 +111,12 @@ function setup() {
 }
 
 function mouseClicked() {
-	if(tree.collides(mouseX, mouseY))
+	var isOnTree = false;
+	isOnTree = tree.collides(mouseX, mouseY);
+	if(isOnTree)
 		tree.changeColor(random(255), 50, random(100));
+	if(!isOnTree)
+		console.log('false');
 }
 
 function draw() {
