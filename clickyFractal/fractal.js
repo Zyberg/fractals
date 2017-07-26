@@ -6,6 +6,7 @@ function Tree(begin, end) {
 
 	this.thickness = 1;
 	this.clicked = false;
+	this.counter = 0;
 
 	this.show = function() {
 		if (this.left)
@@ -52,23 +53,17 @@ function Tree(begin, end) {
 			this.addBoth();
 	}
 
-	this.collides = function(x, y) {
-		this.collidesFlag(x, y);
-		return this.clicked;
-	}
-
-	this.collidesFlag = function(x, y) {
+	this.collides = function(x, y, onsuccess=()=>{}) {
 		// Function from p5.collide2D
 		if (collidePointLine(x, y, begin.x, begin.y, end.x, end.y, buffer=0.5)) {
-			console.log("I was clicked");
 			this.clicked = true;
+			console.log(this.clicked);
+			onsuccess();
 		}
 		else if (this.left || this.right) {
-			if ( this.left ) this.left.collides(x, y);
-			if ( this.right ) this.right.collides(x, y);
+			if ( this.left ) this.left.collides(x, y, onsuccess=onsuccess);
+			if ( this.right ) this.right.collides(x, y, onsuccess=onsuccess);
 		}
-		else 
-			this.clicked = false;
 	}
 
 	this.changeColor = function(r, g, b) {
@@ -103,6 +98,10 @@ function createXGenerations(gen) {
 		tree.addGeneration();
 }
 
+function clickCallback() {
+	tree.changeColor(random(255), 50, random(100))
+}
+
 function setup() {
 	// Environment setup
 	createCanvas(640, 480);
@@ -111,8 +110,7 @@ function setup() {
 }
 
 function mouseClicked() {
-	if(tree.collides(mouseX, mouseY))
-		tree.changeColor(random(255), 50, random(100));
+	tree.collides(mouseX, mouseY, onsuccess=clickCallback);
 }
 
 function draw() {
